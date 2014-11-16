@@ -78,11 +78,24 @@ public class ACO {
         Topology antT;
         for(Ant ant2 : ants){
              topologyAR.add( new Topology( convertNodes(ant2.antSolutionNode)) ) ;
+             
+             
         }
+        double coverage;
+        double lifetime;
 
         
         TopologyDrawer.draw(pos);
+        
+        coverage= pos.coverage();
+        lifetime = pos.lifetime();                 
+        System.out.println("POS Coverage: "+ coverage + " Lifetime: " + lifetime + " Ratio (coverage/LifeTime): " + coverage/lifetime );
+
         for(Topology antD: topologyAR){
+            coverage= antD.coverage();
+            lifetime = antD.lifetime();                 
+            System.out.println("Coverage: "+ coverage + " Lifetime: " + lifetime + " Ratio (coverage/LifeTime): " + coverage/lifetime );
+
             TopologyDrawer.draw(antD);
         }
     }
@@ -119,4 +132,6 @@ public class ACO {
         }
         
     }
+    
+
 }

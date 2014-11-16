@@ -50,7 +50,7 @@ public class Params {
     public static int numColonyRuns = 100;
     public static int numAnts = 3;
     
-    public static int numNodeMult = 7;
+    public static int numNodeMult = 3;
     
     
     public static double phLevelMax = 100.00;
