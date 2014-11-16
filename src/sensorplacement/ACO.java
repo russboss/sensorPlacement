@@ -71,6 +71,28 @@ public class ACO {
     }
 
     
+    public void updatePhTrails(){
+        
+        
+    }
+    
+    
+    public Edge getEdgePair(Node source,Node target){
+        for(Edge edge : target.edges){
+            if (edge.target == source){
+                return edge;
+            }
+        }
+        return null;
+    }
+
+    public void evaporatePh(){
+        for(Node node : g.nodes){
+            for(Edge edge : node.edges){
+                edge.pheromone -= Params.phLevelFade;
+            }
+        }
+    }
     
     public void printAnts(){
         for (int i=0;i<ants.size(); i++){

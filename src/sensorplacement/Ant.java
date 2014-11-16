@@ -50,6 +50,20 @@ public class Ant {
         return antSolution;
     }
 
+    /**
+     * 
+     * 
+     * @return 
+     */
+    public Node chooseDirection(){
+    
+        
+        
+        
+    
+        return currentNode;
+    }
+    
     @Override
     public String toString(){
         String str = "";

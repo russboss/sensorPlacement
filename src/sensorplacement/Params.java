@@ -51,10 +51,11 @@ public class Params {
     public static int numAnts = 3;
     
     public static int numNodeMult = 10;
-            
-            
+    
+    
     public static double phLevelMax = 100.00;
     public static double phLevelMin = 0.00;
+    public static double phLevelInit = 0.5;
     
     public static double phLevelFade = 0.01;
     public static double phLevelMark = 0.02;

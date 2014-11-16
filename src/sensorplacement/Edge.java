@@ -13,7 +13,7 @@ public class Edge {
 
     public final Node target;
     public double weight;
-    public double pheromone;
+    public double pheromone = Params.phLevelInit;
     
     public Edge(Node target, double weight) {
         this.target = target;
