@@ -13,7 +13,8 @@ public class Edge {
 
     public final Node target;
     public double weight;
-
+    public double pheromone;
+    
     public Edge(Node target, double weight) {
         this.target = target;
         this.weight = weight;

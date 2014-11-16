@@ -115,8 +115,14 @@ public class SensorPlacement {
         //test1();
         //MOGA ga = new MOGA();
         //ga.solve();
-        PSO pso = new PSO();
-        pso.solve();
+        //PSO pso = new PSO();
+        //pso.solve();
+        
+        
+        ACO aco = new ACO();
+        aco.solve();
+
+        
     }
     
 }

@@ -50,7 +50,31 @@ public class Topology {
         constructGraph();
         
     }
+
     
+    public Topology(int numSensors) {
+        hecn = new Sensor(Params.xsize / 2, Params.ysize / 2);
+        hecn.id = "hecn";
+        
+        sensors = new ArrayList();
+        for(int i=0; i<numSensors; i++) {
+            double x = Params.xsize * Math.random();
+            double y = Params.ysize * Math.random();
+            Sensor s = new Sensor(x,y);
+            Sensor n = getClosestNode(s);
+            
+            //if s cannot communicate with n
+            if(!s.Rc.contains(n.point())) {
+                Point c = n.closestPointOfComm(s.point());
+                s = new Sensor(c.x, c.y);
+            } 
+            sensors.add(s);
+        }
+        
+        constructGraph();
+        
+    }
+        
     public Topology(double[] posvector, boolean randomize) {
         hecn = new Sensor(Params.xsize / 2, Params.ysize / 2);
         hecn.id = "hecn";
