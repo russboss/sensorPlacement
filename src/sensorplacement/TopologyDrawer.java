@@ -27,7 +27,7 @@ public class TopologyDrawer extends Component {
 
     public static void draw(Topology t) {
         windowcount++;
-        if(windowcount>2) return;
+        if(windowcount>3) return;
         
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -19,7 +19,7 @@ public class Node implements Comparable<Node> {
     public ArrayList<Edge> edges = null;
     public double minDistance = Double.POSITIVE_INFINITY;
     public Node previous;
-    Sensor sensor;
+    public Sensor sensor;
 
     public Node(Sensor s) {
         this.id = s.id;

@@ -15,7 +15,8 @@ import sensorplacement.Graph;
  */
 public class Ant {
     Node currentNode = null;
-    ArrayList<Node> antSolution;
+    ArrayList<Node> antSolutionNode = new ArrayList();
+    ArrayList<Edge> antSolutionEdge = new ArrayList();;
     Graph g;
     Random rand = new Random();
     // nextInt is normally exclusive of the top value,
@@ -42,34 +43,90 @@ public class Ant {
     
     
     public ArrayList<Node> releaseTheAnt(){
-        antSolution.add(currentNode);
-        
-        
-        
-        
-        return antSolution;
+        antSolutionNode.add(currentNode);
+
+        Node nextNode = null;
+        Edge rndEdge = null;
+        boolean moveNext = true;        
+        while(currentNode.id != "hecn"){
+            //currentNode.edges
+
+            
+            //random edge
+            rndEdge = chooseDirection();
+            
+            
+            nextNode = rndEdge.target;
+
+            moveNext = addToLists(currentNode, nextNode,rndEdge);
+            if (moveNext== true){
+                currentNode = nextNode;
+            }
+        }
+        return antSolutionNode;
     }
 
+    
+    public Edge chooseDirection(){
+        Edge ret = null;
+        int randomNodeIndex = 0;
+        randomNodeIndex = rand.nextInt( currentNode.edges.size() );
+
+
+        ret = currentNode.edges.get(randomNodeIndex);
+
+        return ret;
+    }
+    
     /**
-     * 
-     * 
-     * @return 
+     * adds the nextNode, nextEdge and the edge that connects from nextNode to Source
+     * @param source source node
+     * @param nextNode target node
+     * @param nextEdge edge that connects source and target
+     * @return true if successful false if one edge does not exist
      */
-    public Node chooseDirection(){
+    private boolean addToLists(Node source, Node nextNode, Edge nextEdge){
+        //add to node list
+        if(antSolutionNode.indexOf(nextNode) == -1){
+            antSolutionNode.add(nextNode);
+        }
+        
+        //add both edges
+        if (antSolutionEdge.indexOf(nextEdge) == -1){
+            Edge a = getEdgePair(source, nextNode);
+            if(a != null){
+                antSolutionEdge.add( a );
+                antSolutionEdge.add( nextEdge );
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
+    }
     
-        
-        
-        
     
-        return currentNode;
+    /**
+     * Gets the edge that leads from Target to Source
+     * @param source Source node
+     * @param target target node
+     * @return edge that leads from target to source
+     */
+    public Edge getEdgePair(Node source,Node target){
+        for(Edge edge : target.edges){
+            if (edge.target == source){
+                return edge;
+            }
+        }
+        return null;
     }
     
     @Override
     public String toString(){
         String str = "";
-        if (antSolution != null){
-            for(int i=0; i<antSolution.size(); i++){
-                str += antSolution.get(i) + " *** ";
+        if (antSolutionNode != null){
+            for(int i=0; i<antSolutionNode.size(); i++){
+                str += antSolutionNode.get(i) + " *** ";
             }
         }
         return "Node: "+ currentNode + "\nList: " + str;

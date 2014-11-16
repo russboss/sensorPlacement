@@ -41,11 +41,19 @@ public class ACO {
 //            System.out.println();
 //        }
         Ant ant;
-        for(int i=0; i<Params.numAnts; i++){
+        //for(int i=0; i<Params.numAnts; i++){
+        for(int i=0; i<2; i++){
             ant = new Ant(g);
             ants.add(ant);
-            break; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!REmove Me For More than 1 ant
+            //break; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!REmove Me For More than 1 ant
         }
+        
+        
+        for(Ant ant2 : ants){
+            ant2.releaseTheAnt();
+        }
+        
+        
         
         
         
@@ -57,6 +65,8 @@ public class ACO {
 //        
 //        
 //            }
+        
+        
             
             //local search procedure //??
             
@@ -64,10 +74,17 @@ public class ACO {
             //update all edge weights
             
         //end while not end condition
-        
+        ArrayList<Topology> topologyAR= new ArrayList();
+        Topology antT;
+        for(Ant ant2 : ants){
+             topologyAR.add( new Topology( convertNodes(ant2.antSolutionNode)) ) ;
+        }
 
         
         TopologyDrawer.draw(pos);
+        for(Topology antD: topologyAR){
+            TopologyDrawer.draw(antD);
+        }
     }
 
     
@@ -77,14 +94,6 @@ public class ACO {
     }
     
     
-    public Edge getEdgePair(Node source,Node target){
-        for(Edge edge : target.edges){
-            if (edge.target == source){
-                return edge;
-            }
-        }
-        return null;
-    }
 
     public void evaporatePh(){
         for(Node node : g.nodes){
@@ -93,6 +102,16 @@ public class ACO {
             }
         }
     }
+    
+    public ArrayList<Sensor> convertNodes(ArrayList<Node> nodes){        
+        ArrayList<Sensor> sensors = new ArrayList();
+        for(Node node : nodes){
+            sensors.add(node.sensor);
+        }
+        return sensors;
+    }
+    
+    
     
     public void printAnts(){
         for (int i=0;i<ants.size(); i++){
