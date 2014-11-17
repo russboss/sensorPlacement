@@ -71,10 +71,19 @@ public class Ant {
         Edge ret = null;
         int randomNodeIndex = 0;
         randomNodeIndex = rand.nextInt( currentNode.edges.size() );
-
-
+        
+        //update to use pheromone levels to choose a good edges !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         ret = currentNode.edges.get(randomNodeIndex);
 
+        //grab a list of edges
+        //for(Edge edge : currentNode.edges){
+            
+            
+        //}
+        
+
+        
+        
         return ret;
     }
     

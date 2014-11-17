@@ -45,7 +45,7 @@ public class ACO {
         for(int i=0; i<2; i++){
             ant = new Ant(g);
             ants.add(ant);
-            //break; //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!REmove Me For More than 1 ant
+
         }
         
         
@@ -54,8 +54,13 @@ public class ACO {
         }
         
         
+        //choose best ant topology !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
         
+        //local search procedure //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ???????????????????????
+        //update pheromone levels !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        
+        //fade pheromone levels !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
         printAnts();
         
@@ -65,13 +70,7 @@ public class ACO {
 //        
 //        
 //            }
-        
-        
             
-            //local search procedure //??
-            
-            
-            //update all edge weights
             
         //end while not end condition
         ArrayList<Topology> topologyAR= new ArrayList();
@@ -119,7 +118,9 @@ public class ACO {
     public ArrayList<Sensor> convertNodes(ArrayList<Node> nodes){        
         ArrayList<Sensor> sensors = new ArrayList();
         for(Node node : nodes){
-            sensors.add(node.sensor);
+            if(node.id != "hecn"){
+                sensors.add(node.sensor);
+            }
         }
         return sensors;
     }
