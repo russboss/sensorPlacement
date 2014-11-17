@@ -68,23 +68,34 @@ public class Ant {
 
     
     public Edge chooseDirection(){
-        Edge ret = null;
+        ArrayList<Edge> edgeList = new ArrayList();
+        double maxDouble = 0.0;
         int randomNodeIndex = 0;
-        randomNodeIndex = rand.nextInt( currentNode.edges.size() );
+        double rnd;
+        double value = 0.0;
+        //randomNodeIndex = rand.nextInt( currentNode.edges.size() );
         
         //update to use pheromone levels to choose a good edges !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        ret = currentNode.edges.get(randomNodeIndex);
+        //Edge ret = currentNode.edges.get(randomNodeIndex);
 
         //grab a list of edges
-        //for(Edge edge : currentNode.edges){
-            
-            
-        //}
+        for(Edge edge : currentNode.edges){
+            maxDouble += edge.pheromone;
+            edgeList.add(edge);
+        }
         
+        rnd = rand.nextDouble() * maxDouble;
+        
+        //cyccle through all the attached edges and when the sum of weights is 
+        //greater than rnd, our edge
+        for (Edge temp : edgeList){
+            value += temp.pheromone;
+            if(value > rnd){
+                return temp;
+            }
+        }
 
-        
-        
-        return ret;
+        return null;
     }
     
     /**
