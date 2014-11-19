@@ -12,7 +12,7 @@ package sensorplacement;
  */
 public class Params {
     
-    public static int numMaxRuns = 1000;
+    public static int numMaxRuns = 3;
             
             
     public static int numSensors = 25;
