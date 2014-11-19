@@ -46,8 +46,7 @@ public class ACO {
 //            System.out.println();
 //        }
         Ant ant;
-        //for(int i=0; i<Params.numAnts; i++){
-        for(int i=0; i<2; i++){
+        for(int i=0; i<Params.numAnts; i++){
             ant = new Ant(g);
             ant.setID(i);
             ants.add(ant);
@@ -70,12 +69,14 @@ public class ACO {
         
         //local search procedure //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ???????????????????????
         //update pheromone levels !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        
+        layPheromones(bestAnt.antSolutionEdge);
         //fade pheromone levels !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        System.out.println("best ant:\n" + bestAnt + "\n:: " + bestCoverage);
+        evaporatePh();
+        //System.out.println("best ant:\n" + bestAnt + "\n:: " + bestCoverage);
         
-        
-        
+        if(run %10 == 0){
+            System.out.println("best ant coverage: " + bestCoverage);
+        }
         
         
         
@@ -97,29 +98,43 @@ public class ACO {
         System.out.println("POS Coverage: "+ coverage + " Lifetime: " + lifetime + " Ratio (coverage/LifeTime): " + coverage/lifetime );
         
         //draw the best ant from each run
-        int k=0;
-        for(Topology antD: topologyAR){
-            coverage= antD.coverage();
-            lifetime = antD.lifetime();                 
-            System.out.println("run: "+ k+" Coverage: "+ coverage + " Lifetime: " + lifetime + " Ratio (coverage/LifeTime): " + coverage/lifetime );
+//        int k=0;
+//        for(Topology antD: topologyAR){
+//            coverage= antD.coverage();
+//            lifetime = antD.lifetime();                 
+//            System.out.println("run: "+ k+" Coverage: "+ coverage + " Lifetime: " + lifetime + " Ratio (coverage/LifeTime): " + coverage/lifetime );
+//
+//            TopologyDrawer.draw(antD);
+//            k++;
+//        }
+        
+        
+        Topology antD;
+        antD = topologyAR.get(topologyAR.size()/2);
+        TopologyDrawer.draw(antD);
 
-            TopologyDrawer.draw(antD);
-            k++;
+        antD = topologyAR.get(topologyAR.size()-1);
+        TopologyDrawer.draw(antD);
+
+    }
+
+    
+    public void layPheromones(ArrayList<Edge> edges){
+        for(Edge edge : edges){
+            edge.pheromone += Params.phLevelMark;
+            if(edge.pheromone > Params.phLevelMax){
+                edge.pheromone = Params.phLevelMax;
+            }
         }
     }
-
-    
-    public void updatePhTrails(){
-        
-        
-    }
-    
-    
 
     public void evaporatePh(){
         for(Node node : g.nodes){
             for(Edge edge : node.edges){
                 edge.pheromone -= Params.phLevelFade;
+                if(edge.pheromone < Params.phLevelMin){
+                    edge.pheromone = Params.phLevelMin;
+                }
             }
         }
     }
@@ -143,5 +158,4 @@ public class ACO {
         
     }
     
-
 }

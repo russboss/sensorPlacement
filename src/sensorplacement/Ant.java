@@ -16,8 +16,8 @@ import sensorplacement.Graph;
 public class Ant {
     Node currentNode = null;
     int id = -1;
-    ArrayList<Node> antSolutionNode = new ArrayList();
-    ArrayList<Edge> antSolutionEdge = new ArrayList();
+    ArrayList<Node> antSolutionNode = null;
+    ArrayList<Edge> antSolutionEdge = null;
     Graph g;
     Random rand = new Random();
     // nextInt is normally exclusive of the top value,
@@ -46,25 +46,28 @@ public class Ant {
     
     
     public ArrayList<Node> releaseTheAnt(){
+        resetLists();
         antSolutionNode.add(currentNode);
 
+        
         Node nextNode = null;
         Edge rndEdge = null;
         boolean moveNext = true;
         boolean visitedHecn = false;
-        while(visitedHecn == false && antSolutionNode.size() <= Params.numSensors){
+        while( !(visitedHecn == true && antSolutionNode.size() >= Params.numSensors)) {
             //currentNode.edges
 
-            
             //random edge
             rndEdge = chooseDirection();
-            
             
             nextNode = rndEdge.target;
 
             moveNext = addToLists(currentNode, nextNode,rndEdge);
             if (moveNext== true){
                 currentNode = nextNode;
+            }
+            if(currentNode.id == "hecn"){
+                visitedHecn = true;
             }
         }
         return antSolutionNode;
@@ -92,9 +95,12 @@ public class Ant {
         
         //cyccle through all the attached edges and when the sum of weights is 
         //greater than rnd, our edge
+        //System.out.println("Rnd: "+ rnd + " Max: "+maxDouble);
         for (Edge temp : edgeList){
             value += temp.pheromone;
+            //System.out.println("value: "+ value);
             if(value > rnd){
+                //System.out.println("found");
                 return temp;
             }
         }
@@ -144,14 +150,18 @@ public class Ant {
         return null;
     }
     
+    private void resetLists(){
+        antSolutionNode = new ArrayList();
+        antSolutionEdge = new ArrayList();
+    }
     @Override
     public String toString(){
         String str = "";
-        if (antSolutionNode != null){
-            for(int i=0; i<antSolutionNode.size(); i++){
-                str += antSolutionNode.get(i) + " *** ";
-            }
-        }
+//        if (antSolutionNode != null){
+//            for(int i=0; i<antSolutionNode.size(); i++){
+//                str += antSolutionNode.get(i) + " *** ";
+//            }
+//        }
         return "ID: "+id+"\n"+"Node: "+ currentNode + "\nList: " + str;
     }
 }
