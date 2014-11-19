@@ -28,7 +28,12 @@ public class ACO {
     public void solve() {
 
         Topology pos = new Topology(startSensors);
+        Topology temp = null;
+        double tempCoverage;
         g = pos.g;
+        Ant bestAnt = null;
+        double bestCoverage = 0.0;
+        
         //init ants
         //init edges
 
@@ -48,13 +53,17 @@ public class ACO {
 
         }
         
-        
+        //run all ants  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //choose best ant topology !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         for(Ant ant2 : ants){
             ant2.releaseTheAnt();
+            temp = new Topology( convertNodes( ant2.antSolutionNode) );
+            tempCoverage = temp.coverage();
+            if( temp.coverage() > bestCoverage ){
+                bestAnt = ant2;
+                bestCoverage = tempCoverage;
+            }
         }
-        
-        
-        //choose best ant topology !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
         
         //local search procedure //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ???????????????????????

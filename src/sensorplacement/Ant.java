@@ -47,8 +47,9 @@ public class Ant {
 
         Node nextNode = null;
         Edge rndEdge = null;
-        boolean moveNext = true;        
-        while(currentNode.id != "hecn"){
+        boolean moveNext = true;
+        boolean visitedHecn = false;
+        while(visitedHecn == false && antSolutionNode.size() <= Params.numSensors){
             //currentNode.edges
 
             
@@ -124,7 +125,6 @@ public class Ant {
         }
         return true;
     }
-    
     
     /**
      * Gets the edge that leads from Target to Source
