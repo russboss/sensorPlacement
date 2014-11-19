@@ -49,8 +49,8 @@ public class ACO {
         //for(int i=0; i<Params.numAnts; i++){
         for(int i=0; i<2; i++){
             ant = new Ant(g);
+            ant.setID(i);
             ants.add(ant);
-
         }
         
         //run all ants  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -70,6 +70,7 @@ public class ACO {
         //update pheromone levels !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
         //fade pheromone levels !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        System.out.println("best ant:\n" + bestAnt + "\n:: " + bestCoverage);
         
         printAnts();
         

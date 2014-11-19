@@ -15,8 +15,9 @@ import sensorplacement.Graph;
  */
 public class Ant {
     Node currentNode = null;
+    int id = -1;
     ArrayList<Node> antSolutionNode = new ArrayList();
-    ArrayList<Edge> antSolutionEdge = new ArrayList();;
+    ArrayList<Edge> antSolutionEdge = new ArrayList();
     Graph g;
     Random rand = new Random();
     // nextInt is normally exclusive of the top value,
@@ -33,7 +34,9 @@ public class Ant {
         currentNode = arr.get(rand.nextInt(arr.size()));
        
     }
-
+    public void setID(int i){
+        id = i;
+    }
     public Ant(Graph inG, Node startNode){
         g = inG;
         currentNode = startNode;
@@ -149,6 +152,6 @@ public class Ant {
                 str += antSolutionNode.get(i) + " *** ";
             }
         }
-        return "Node: "+ currentNode + "\nList: " + str;
+        return "ID: "+id+"\n"+"Node: "+ currentNode + "\nList: " + str;
     }
 }
