@@ -24,32 +24,34 @@ public class Ant {
     // so add 1 to make it inclusive
     //int randomNum = rand.nextInt((max - min) + 1) + min;
     
-    public Ant(Graph inG){
-        
-        g = inG;
-
-        
-        //pick random node based on the list in nodes stored in 
-        ArrayList<Node> arr = g.nodes;
-        currentNode = arr.get(rand.nextInt(arr.size()));
-       
+    public Ant(int i){
+        id = i;
     }
     public void setID(int i){
         id = i;
     }
     public Ant(Graph inG, Node startNode){
         g = inG;
+        
         currentNode = startNode;
-
     }
     
     
+    public void setGraph(Graph a){
+        g = a;
+        ArrayList<Node> arr = g.nodes;
+        //pick random node based on the list in nodes stored in 
+        currentNode = arr.get(rand.nextInt(arr.size()));
+    }
+    
+    public Graph getGraph(){
+        return g;
+    }
     
     public ArrayList<Node> releaseTheAnt(){
         resetLists();
         antSolutionNode.add(currentNode);
 
-        
         Node nextNode = null;
         Edge rndEdge = null;
         boolean moveNext = true;

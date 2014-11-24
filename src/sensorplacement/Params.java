@@ -56,12 +56,13 @@ public class Params {
     public static double phLevelMax = 1.00;
     public static double phLevelMin = 0.10;
     public static double phLevelInit = 0.5;
+    public static double cleanThreashold = 0.5;
     
     public static double phLevelFade = 0.002;
     public static double phLevelMark = 0.01;
     
 
     
-    
+
     
 }

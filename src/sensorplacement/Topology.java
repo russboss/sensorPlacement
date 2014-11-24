@@ -52,6 +52,12 @@ public class Topology {
     }
 
     
+    //added for ACO
+    //create topology with numSensors
+    /**
+     * create topology with numSensors
+     * @param numSensors number of sensors to create (does not include HECN)
+     */
     public Topology(int numSensors) {
         hecn = new Sensor(Params.xsize / 2, Params.ysize / 2);
         hecn.id = "hecn";
