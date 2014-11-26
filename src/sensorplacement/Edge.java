@@ -19,4 +19,10 @@ public class Edge {
         this.target = target;
         this.weight = weight;
     }
+    
+    
+    public String toString(){
+        String ret = "target: " + target + " weight: "+ weight + " pheromone: " +pheromone;
+        return ret;
+    }
 }
