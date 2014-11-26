@@ -78,4 +78,37 @@ public class Graph {
         return null;
     }
 
+    
+    
+    public void cleanNodeByEdgePheromone(double threshold){
+        ArrayList<Node> newList = new ArrayList();
+        boolean reachedThreashold = false;
+        for (Node node : nodes){
+            for(Edge edge : node.edges){
+                System.out.print(edge.pheromone + " ");
+                if(edge.pheromone > threshold){
+                    reachedThreashold = true;
+                    newList.add(node);
+                    break;
+                }
+            }
+
+            if(reachedThreashold == true){
+                System.out.print(" Add Node");
+
+            }
+            reachedThreashold = false;
+                        System.out.println();
+        }
+
+        nodes = null;
+        nodes = newList;
+        
+        for(Node node : nodes){
+            node.edges = new ArrayList();
+        }
+        
+        
+        
+    }
 }
