@@ -27,6 +27,9 @@ public class Topology {
         constructGraph();
         
     }
+
+    
+    
     
     public Topology() {
         hecn = new Sensor(Params.xsize / 2, Params.ysize / 2);
@@ -281,5 +284,15 @@ public class Topology {
             c[i++] = s.point().y;
         }
         return c;
+    }
+    
+    public ArrayList<Sensor> convertNodes(ArrayList<Node> nodes){        
+        ArrayList<Sensor> sensors = new ArrayList();
+        for(Node node : nodes){
+            if(node.id != "hecn"){
+                sensors.add(node.sensor);
+            }
+        }
+        return sensors;
     }
 }
