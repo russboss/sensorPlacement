@@ -6,6 +6,7 @@
 package sensorplacement;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import sensorplacement.Graph;
 
@@ -51,19 +52,19 @@ public class Ant {
     public ArrayList<Node> releaseTheAnt(){
         resetLists();
         antSolutionNode.add(currentNode);
-
+        int runcount = 0;
         Node nextNode = null;
         Edge rndEdge = null;
         boolean moveNext = true;
         boolean visitedHecn = false;
-        while( !(visitedHecn == true && antSolutionNode.size() >= Params.numSensors)) {
+        while( !((visitedHecn == true && antSolutionNode.size() >= Params.numSensors) || (runcount > Params.numSensors * Params.infiniteAntMult) )) {
             //currentNode.edges
-
+            //System.out.println(currentNode + "::runcount" + runcount);
             //random edge
             rndEdge = chooseDirection();
             
             nextNode = rndEdge.target;
-
+            
             moveNext = addToLists(currentNode, nextNode,rndEdge);
             if (moveNext== true){
                 currentNode = nextNode;
@@ -71,6 +72,7 @@ public class Ant {
             if(currentNode.id == "hecn"){
                 visitedHecn = true;
             }
+            runcount++;
         }
         return antSolutionNode;
     }
@@ -79,34 +81,45 @@ public class Ant {
     public Edge chooseDirection(){
         ArrayList<Edge> edgeList = new ArrayList();
         double maxDouble = 0.0;
-        int randomNodeIndex = 0;
         double rnd;
         double value = 0.0;
+        double tempCoverage = 0.0;
+        Topology tempTopology = null;
+        ArrayList<Node> tempCoverageNodeList = (ArrayList<Node>)antSolutionNode.clone();//new ArrayList();
+        List<Double> prob = new ArrayList<Double>();
         //randomNodeIndex = rand.nextInt( currentNode.edges.size() );
-        
+        //tempCoverageNodeList.add(currentNode);
         //update to use pheromone levels to choose a good edges !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //Edge ret = currentNode.edges.get(randomNodeIndex);
 
         //grab a list of edges
+        
         for(Edge edge : currentNode.edges){
-            maxDouble += edge.pheromone;
+
+            tempCoverageNodeList.add(edge.target);
+            tempTopology = new Topology(convertNodes(tempCoverageNodeList)); //inheritance of the node,sensor,point would make this happy
+
+            tempCoverage = tempTopology.coverage();
+            maxDouble += edge.pheromone * tempCoverage + 0.0001;
+            prob.add(edge.pheromone * tempCoverage + 0.0001);
             edgeList.add(edge);
+            tempCoverageNodeList.remove(edge.target);
+            
         }
         
         rnd = rand.nextDouble() * maxDouble;
         
-        //cyccle through all the attached edges and when the sum of weights is 
+        //cycle through all the attached edges and when the sum of weights is 
         //greater than rnd, our edge
         //System.out.println("Rnd: "+ rnd + " Max: "+maxDouble);
-        for (Edge temp : edgeList){
-            value += temp.pheromone;
-            //System.out.println("value: "+ value);
+        for (int i=0; i<prob.size(); i++){
+            value += prob.get(i);
+            //System.out.print("value: "+ value);
             if(value > rnd){
-                //System.out.println("found");
-                return temp;
+                //System.out.println(" found: "+i);
+                return edgeList.get(i);
             }
         }
-
         return null;
     }
     
@@ -166,4 +179,84 @@ public class Ant {
 //        }
         return "ID: "+id+"\n"+"Node: "+ currentNode + "\nList: " + str;
     }
+
+    public ArrayList<Sensor> convertNodes(ArrayList<Node> nodes){        
+        ArrayList<Sensor> sensors = new ArrayList();
+        for(Node node : nodes){
+            if(node.id != "hecn"){
+                sensors.add(node.sensor);
+            }
+        }
+        return sensors;
+    }
+
+
+    public ArrayList<Node> releaseTheAntBest(){
+        resetLists();
+        antSolutionNode.add(currentNode);
+        int runCount = 0;
+        Node nextNode = null;
+        Edge rndEdge = null;
+        boolean moveNext = true;
+
+        
+        while( !((antSolutionNode.size() >= Params.numSensors) || (runCount > Params.numSensors * Params.infiniteAntMult)) ) {
+            //currentNode.edges
+            //System.out.println(currentNode + "::runcount" + runcount);
+            //random edge
+            rndEdge = chooseDirectionSimple();
+            if (rndEdge != null ){
+                nextNode = rndEdge.target;
+                System.out.println(rndEdge.target);
+                moveNext = addToLists(currentNode, nextNode,rndEdge);
+                if (moveNext== true){
+                    currentNode = nextNode;
+                }
+            }else{
+                nextNode = antSolutionNode.get(0);
+            }
+            runCount++;
+            
+        }
+        return antSolutionNode;
+    }
+    
+    public Edge chooseDirectionSimple(){
+        ArrayList<Edge> edgeList = new ArrayList();
+        double maxDouble = 0.0;
+        double rnd;
+        double value = 0.0;
+        double tempCoverage = 0.0;
+        Topology tempTopology = null;
+        ArrayList<Node> tempCoverageNodeList = (ArrayList<Node>)antSolutionNode.clone();//new ArrayList();
+        List<Double> prob = new ArrayList<Double>();
+
+        //grab a list of edges
+        //System.out.println(currentNode);
+        for(Edge edge : currentNode.edges){
+            System.out.println(edge);
+            if(edge.pheromone >= Params.cleanThreashold && !antSolutionNode.contains(edge.target) ){
+            //if(edge.pheromone >= Params.cleanThreashold ){
+                maxDouble += edge.pheromone;
+                edgeList.add(edge);
+            }
+        }
+        
+        rnd = rand.nextDouble() * maxDouble;
+        
+        //cycle through all the attached edges and when the sum of weights is 
+        //greater than rnd, our edge
+        
+        for (Edge edge : edgeList){
+            value += edge.pheromone;
+            //System.out.print("value: "+ value);
+            if(value > rnd){
+                //System.out.println(" found: "+edge);
+                return edge;
+            }
+        }
+        return null;
+    }
+
+    
 }
