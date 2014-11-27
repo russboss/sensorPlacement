@@ -46,8 +46,27 @@ public class Node implements Comparable<Node> {
             e.weight = w;
         }
     }
-    
+
+    /**
+     * clears all edges from the node
+     */
     public void clearEdges(){
         edges = new ArrayList();
     }
+    
+    
+    /**
+     * Gets the edge that leads from Node Target to Source(this Node)
+     * @param target target node
+     * @return edge that leads from target to this node
+     */
+    public Edge getEdgePair(Node target){
+        for(Edge edge : target.edges){
+            if (edge.target == this){
+                return edge;
+            }
+        }
+        return null;
+    }
+
 }

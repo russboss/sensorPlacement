@@ -9,7 +9,7 @@ package sensorplacement;
  *
  * @author nathan
  */
-public class Edge {
+public class Edge implements Comparable{
 
     public final Node target;
     public double weight;
@@ -25,4 +25,26 @@ public class Edge {
         String ret = "target: " + target + " weight: "+ weight + " pheromone: " +pheromone;
         return ret;
     }
+    
+    public double getPheromone(){
+        return pheromone;
+    }
+ 
+    @Override
+    public int compareTo(Object o) {
+        //write code here for compare name
+        Edge a = (Edge)o;
+        if(pheromone < a.getPheromone() ){
+            return -1;
+        }
+        else if (pheromone > a.getPheromone() ){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+
+    
 }
+

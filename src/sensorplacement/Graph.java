@@ -82,33 +82,53 @@ public class Graph {
     
     public void cleanNodeByEdgePheromone(double threshold){
         ArrayList<Node> newList = new ArrayList();
+        ArrayList<Edge> edgeList = new ArrayList();
+        Edge edgeReturn = null;
+        
         boolean reachedThreashold = false;
-        for (Node node : nodes){
-            for(Edge edge : node.edges){
-                System.out.print(edge.pheromone + " ");
-                if(edge.pheromone > threshold){
-                    reachedThreashold = true;
-                    newList.add(node);
-                    break;
+                
+        Node currentNode = getNode("hecn");
+
+        
+        
+        while(newList.size() < Params.numSensors){
+            for(Edge edge : currentNode.edges){
+                if(edge.pheromone >= Params.cleanThreashold && !newList.contains(edge.target) ){
+                    edgeList.add(edge);
                 }
             }
-
-            if(reachedThreashold == true){
-                System.out.print(" Add Node");
-
-            }
-            reachedThreashold = false;
-                        System.out.println();
-        }
-
-        nodes = null;
-        nodes = newList;
-        
-        for(Node node : nodes){
-            node.edges = new ArrayList();
-        }
-        
+            
+            Collections.sort(edgeList);
+            
+            
+            
+            
+            
+        }//end while
         
         
     }
 }
+
+
+
+
+/*
+Fruit fruit;
+for(int i=0;i<100;i++)
+{
+  fruit = new fruit();
+  fruit.setname(...);
+  fruits.add(fruit);
+}
+
+//Sorting
+Collections.sort(fruits, new Comparator<Fruit>() {
+        @Override
+        public int compare(Fruit  fruite1, Fruit  fruite2)
+        {
+
+            return  fruite1.fruitName.compareTo(fruite2.fruitName);
+        }
+    });
+*/
