@@ -9,7 +9,7 @@ package sensorplacement;
  *
  * @author nathan
  */
-public class Edge implements Comparable{
+public class Edge implements Comparable, Cloneable{
 
     public final Node target;
     public double weight;
@@ -45,6 +45,15 @@ public class Edge implements Comparable{
         }
     }
 
+    
+    
+    @Override
+    public Object clone() {
+        Edge ret = new Edge(target,weight);
+        ret.pheromone  = pheromone;
+
+        return ret;
+    }    
     
 }
 

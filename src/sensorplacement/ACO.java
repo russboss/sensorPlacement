@@ -7,6 +7,7 @@
 package sensorplacement;
 
 import java.util.ArrayList;
+import javax.swing.RowFilter;
 
 /**
  *
@@ -32,15 +33,21 @@ public class ACO {
 
 
         Topology pos = new Topology(startSensors);
-        Topology temp = null;
+        
         double tempCoverage;
-        solution = pos.g;
+        solution = (Graph)pos.g.clone();//new ArrayList();
+        
+        //add edges
+        Topology temp = new Topology( convertNodes(solution.nodes) );
+        solution = temp.g;
+        
+        //System.out.println("Cloned");
+        //solution = pos.g;
         Ant bestAnt = null;
-        double bestCoverage = 0.0;
-        ArrayList<Topology> topologyAR= new ArrayList();
-        //init ants
-        //init edges
+        double bestCoverage = -0.1;
+        
 
+        
 //        //Printing edge Weights by Node
 //        for(Node node : g.nodes){
 //            System.out.println(g.getNode(node.id));
@@ -80,18 +87,18 @@ public class ACO {
             evaporatePh( bestAnt.getGraph() );
             //System.out.println("best ant:\n" + bestAnt + "\n:: " + bestCoverage);
 
-            if(run %10 == 0){
+            //if(run %10 == 0){
                 System.out.println("best ant coverage: " + bestCoverage);
-            }
+            //}
 
-            topologyAR.add( new Topology( convertNodes(bestAnt.antSolutionNode)) ) ;
+            //topologyAR.add( new Topology( convertNodes(bestAnt.antSolutionNode)) ) ;
             solution = bestAnt.getGraph();
         }
         //end while not end condition
         
         
         
-        
+
         
         TopologyDrawer.draw(pos);
         
@@ -99,24 +106,13 @@ public class ACO {
         lifetime = pos.lifetime();                 
         System.out.println("POS Coverage: "+ coverage + " Lifetime: " + lifetime + " Ratio (coverage/LifeTime): " + coverage/lifetime );
         
-        //draw the best ant from each run
-//        int k=0;
-//        for(Topology antD: topologyAR){
-//            coverage= antD.coverage();
-//            lifetime = antD.lifetime();                 
-//            System.out.println("run: "+ k+" Coverage: "+ coverage + " Lifetime: " + lifetime + " Ratio (coverage/LifeTime): " + coverage/lifetime );
-//
-//            TopologyDrawer.draw(antD);
-//            k++;
-//        }
-        
-        
-        Topology antD;
-        antD = topologyAR.get(topologyAR.size()/2);
-        TopologyDrawer.draw(antD);
 
-        antD = topologyAR.get(topologyAR.size()-1);
+        Topology antD = new Topology( convertNodes( solution.cleanNodeByEdgePheromone(Params.cleanThreashold) ) );
         TopologyDrawer.draw(antD);
+        coverage= antD.coverage();
+        lifetime = antD.lifetime();                 
+        System.out.println("Coverage: "+ coverage + " Lifetime: " + lifetime + " Ratio (coverage/LifeTime): " + coverage/lifetime );
+        
 
     }
 
@@ -152,12 +148,5 @@ public class ACO {
     }
     
     
-    
-    public void printAnts(){
-        for (int i=0;i<ants.size(); i++){
-            System.out.println( ants.get(i) );
-        }
-        
-    }
     
 }

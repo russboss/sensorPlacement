@@ -14,7 +14,7 @@ import java.util.PriorityQueue;
  *
  * @author nathan
  */
-public class Graph {
+public class Graph implements Cloneable{
     
     ArrayList<Node> nodes = new ArrayList();
 
@@ -80,55 +80,74 @@ public class Graph {
 
     
     
-    public void cleanNodeByEdgePheromone(double threshold){
+    public ArrayList<Node> cleanNodeByEdgePheromone(double threshold){
         ArrayList<Node> newList = new ArrayList();
         ArrayList<Edge> edgeList = new ArrayList();
-        Edge edgeReturn = null;
-        
-        boolean reachedThreashold = false;
+        Edge edgeChoose = null;
                 
         Node currentNode = getNode("hecn");
-
+        newList.add(currentNode);
         
         
         while(newList.size() < Params.numSensors){
             for(Edge edge : currentNode.edges){
+//                System.out.print(edge);
                 if(edge.pheromone >= Params.cleanThreashold && !newList.contains(edge.target) ){
                     edgeList.add(edge);
+//                    System.out.print(" added");
                 }
+//                System.out.println();
             }
-            
+
             Collections.sort(edgeList);
+
+            System.out.println("edge List Size: " + edgeList.size() );
             
+            edgeChoose = edgeList.get(edgeList.size()-1 );
+//            System.out.println("best: " + edgeChoose );   //this is the edge with the highest pheromone
+            currentNode = edgeChoose.target;
+            newList.add(currentNode);
+            edgeList.remove(edgeChoose);
+
             
-            
-            
-            
+//            for(Node node :newList ){
+//                System.out.print(node + " ");
+//                
+//            }
+            System.out.println("solution size: " + newList.size());
+//            System.out.println("====================");
         }//end while
         
         
-    }
-}
-
-
-
-
-/*
-Fruit fruit;
-for(int i=0;i<100;i++)
-{
-  fruit = new fruit();
-  fruit.setname(...);
-  fruits.add(fruit);
-}
-
-//Sorting
-Collections.sort(fruits, new Comparator<Fruit>() {
-        @Override
-        public int compare(Fruit  fruite1, Fruit  fruite2)
-        {
-
-            return  fruite1.fruitName.compareTo(fruite2.fruitName);
+        //clean the edges from the nodes
+        
+        for(Node node: newList){
+            node.clearEdges();
+            for(Edge edge :node.edges ){
+                System.out.println(edge);
+            }
         }
-    });
-*/
+        
+        //return cleaned list of nodes
+        return newList;
+    }
+    
+    
+    
+    @Override
+    public Object clone() {
+        Graph ret = new Graph();
+        //ret.nodes = (ArrayList<Node>)nodes.clone();//new ArrayList();
+        ret.nodes = new ArrayList();
+        for(Node node: nodes){
+            ret.nodes.add( (Node)node.clone() );
+        }
+        return ret;
+    }
+
+    
+    
+    
+}
+
+

@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author nathan
  */
-public class Node implements Comparable<Node> {
+public class Node implements Comparable<Node>, Cloneable{
 
     public final String id;
     
@@ -67,6 +67,21 @@ public class Node implements Comparable<Node> {
             }
         }
         return null;
+    }
+
+    
+    @Override
+    public Object clone() {
+        Node ret = new Node(sensor);
+        //ret.edges = (ArrayList<Edge>)edges.clone();//new ArrayList();
+        //ret.edges = new ArrayList();
+//        for(Edge edge: edges){
+//            ret.edges.add( (Edge)edge.clone() );
+//        }
+        ret.minDistance = minDistance;
+        ret.previous = previous;
+
+        return ret;
     }
 
 }

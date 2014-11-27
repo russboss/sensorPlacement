@@ -67,12 +67,17 @@ public class Ant {
             
             moveNext = addToLists(currentNode, nextNode,rndEdge);
             if (moveNext== true){
+                //add to node list
+                if(antSolutionNode.indexOf(nextNode) == -1){
+                    antSolutionNode.add(nextNode);
+                    runcount++;
+                }
                 currentNode = nextNode;
             }
             if(currentNode.id == "hecn"){
                 visitedHecn = true;
             }
-            runcount++;
+          
         }
         return antSolutionNode;
     }
@@ -131,10 +136,6 @@ public class Ant {
      * @return true if successful false if one edge does not exist
      */
     private boolean addToLists(Node source, Node nextNode, Edge nextEdge){
-        //add to node list
-        if(antSolutionNode.indexOf(nextNode) == -1){
-            antSolutionNode.add(nextNode);
-        }
         
         //add both edges
         if (antSolutionEdge.indexOf(nextEdge) == -1){
@@ -190,73 +191,6 @@ public class Ant {
         return sensors;
     }
 
-
-    public ArrayList<Node> releaseTheAntBest(){
-        resetLists();
-        antSolutionNode.add(currentNode);
-        int runCount = 0;
-        Node nextNode = null;
-        Edge rndEdge = null;
-        boolean moveNext = true;
-
-        
-        while( !((antSolutionNode.size() >= Params.numSensors) || (runCount > Params.numSensors * Params.infiniteAntMult)) ) {
-            //currentNode.edges
-            //System.out.println(currentNode + "::runcount" + runcount);
-            //random edge
-            rndEdge = chooseDirectionSimple();
-            if (rndEdge != null ){
-                nextNode = rndEdge.target;
-                System.out.println(rndEdge.target);
-                moveNext = addToLists(currentNode, nextNode,rndEdge);
-                if (moveNext== true){
-                    currentNode = nextNode;
-                }
-            }else{
-                nextNode = antSolutionNode.get(0);
-            }
-            runCount++;
-            
-        }
-        return antSolutionNode;
-    }
-    
-    public Edge chooseDirectionSimple(){
-        ArrayList<Edge> edgeList = new ArrayList();
-        double maxDouble = 0.0;
-        double rnd;
-        double value = 0.0;
-        double tempCoverage = 0.0;
-        Topology tempTopology = null;
-        ArrayList<Node> tempCoverageNodeList = (ArrayList<Node>)antSolutionNode.clone();//new ArrayList();
-        List<Double> prob = new ArrayList<Double>();
-
-        //grab a list of edges
-        //System.out.println(currentNode);
-        for(Edge edge : currentNode.edges){
-            System.out.println(edge);
-            if(edge.pheromone >= Params.cleanThreashold && !antSolutionNode.contains(edge.target) ){
-            //if(edge.pheromone >= Params.cleanThreashold ){
-                maxDouble += edge.pheromone;
-                edgeList.add(edge);
-            }
-        }
-        
-        rnd = rand.nextDouble() * maxDouble;
-        
-        //cycle through all the attached edges and when the sum of weights is 
-        //greater than rnd, our edge
-        
-        for (Edge edge : edgeList){
-            value += edge.pheromone;
-            //System.out.print("value: "+ value);
-            if(value > rnd){
-                //System.out.println(" found: "+edge);
-                return edge;
-            }
-        }
-        return null;
-    }
 
     
 }

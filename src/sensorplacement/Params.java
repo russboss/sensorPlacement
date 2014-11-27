@@ -12,7 +12,7 @@ package sensorplacement;
  */
 public class Params {
     
-    public static int numMaxRuns = 100;
+    public static int numMaxRuns = 10;
             
             
     public static int numSensors = 25;
@@ -48,20 +48,20 @@ public class Params {
     //maximum and minimum levels of pheromone on an edge 
     //100.00 is chosen for simpler graidient management
 
-    public static int numAnts = 5;
+    public static int numAnts = 3;
     
-    public static int numNodeMult = 5;
+    public static int numNodeMult = 3;
     
     
     public static double phLevelMax = 1.00;
     public static double phLevelMin = 0.10;
     public static double phLevelInit = 0.5;
-    public static double cleanThreashold = 0.5;
+    public static double cleanThreashold = 0.2;
     
-    public static double phLevelFade = 0.002;
-    public static double phLevelMark = 0.01;
+    public static double phLevelFade = 0.02;
+    public static double phLevelMark = 0.11;
     
-
+    public static int infiniteAntMult = 2;
     
 
     
