@@ -47,5 +47,7 @@ public class Node implements Comparable<Node> {
         }
     }
     
-    
+    public void clearEdges(){
+        edges = new ArrayList();
+    }
 }
